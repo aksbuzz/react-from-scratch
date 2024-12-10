@@ -1,0 +1,21 @@
+{
+  "name": "rfs",
+  "version": "1.0.0",
+  "main": "dist/rfs.js",
+  "type": "module",
+  "files": [
+    "dist/rfs.js"
+  ],
+  "scripts": {
+    "prepack": "npm run build",
+    "build": "rollup -c",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "eslint src --ext .js --fix"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "rollup": "^4.28.1",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-filesize": "^10.0.0"
+  }
+}
