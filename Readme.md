@@ -29,3 +29,11 @@ Dispatcher - dispatch commands that are mapped to command handlers that update t
 
 The application instance is the object that manages the lifecycle of the application. It
 manages the state, renders the views, and updates the state in response to user input
+
+
+## Process
+
+1. Create app using vDOM h() functions
+2. Define app state and reducers to update state
+3. In vDOM when events happen, emit() function will call dispatch to update state
+4. It will also re-render that is, destroy old vDOM, create new one using new state
