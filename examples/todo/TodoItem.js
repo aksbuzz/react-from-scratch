@@ -37,7 +37,7 @@ function TodoItemInEditMode(edit, emit) {
     h('input', {
       value: edit.edited,
       on: {
-        change: ({ target }) => emit('editTodo', target.value),
+        input: ({ target }) => emit('editTodo', target.value),
       },
     }),
     h(

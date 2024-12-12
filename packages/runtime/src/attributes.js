@@ -28,15 +28,15 @@ function setClass(className, el) {
   }
 }
 
-function setStyle(name, value, el) {
+export function setStyle(name, value, el) {
   el.style[name] = value;
 }
 
-function unsetStyle(name, el) {
+export function unsetStyle(name, el) {
   el.style[name] = null;
 }
 
-function setAttribute(name, value, el) {
+export function setAttribute(name, value, el) {
   if (value == null) {
     removeAttribute(name, el);
   } else if (name.startsWith('data-')) {
@@ -46,7 +46,7 @@ function setAttribute(name, value, el) {
   }
 }
 
-function removeAttribute(name, el) {
+export function removeAttribute(name, el) {
   el[name] = null;
   el.removeAttribute(name);
 }

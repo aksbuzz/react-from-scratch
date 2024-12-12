@@ -49,7 +49,22 @@ export function hFragment(vNodes) {
   };
 }
 
-
 function mapTextNodes(children) {
   return children.map(child => (typeof child === 'string' ? hString(child) : child));
+}
+
+export function extractChildren(vDOM) {
+  if (vDOM.children == null) return [];
+
+  const children = [];
+
+  for (const child of vDOM.children) {
+    if (child.type === DOM_TYPES.FRAGMENT) {
+      children.push(...extractChildren(child));
+    } else {
+      children.push(child);
+    }
+  }
+
+  return children;
 }

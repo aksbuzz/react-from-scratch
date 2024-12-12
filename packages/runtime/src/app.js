@@ -1,5 +1,6 @@
 import { Dispatcher } from './dispatcher';
 import { mountDOM } from './mount-dom';
+import { patchDOM } from './patch-dom';
 import { unmountDOM } from './unmount-dom';
 
 /**
@@ -28,12 +29,8 @@ export function createApp({ state, view, reducers = {} }) {
    * Function that renders the app
    */
   function render() {
-    if (vDOM) {
-      unmountDOM(vDOM);
-    }
-
-    vDOM = view(state, emit);
-    mountDOM(vDOM, parentEl);
+    const newVDOM = view(state, emit);
+    vDOM = patchDOM(vDOM, newVDOM, parentEl);
   }
 
   // Register reducers
@@ -53,7 +50,8 @@ export function createApp({ state, view, reducers = {} }) {
      */
     mount(_parentEl) {
       parentEl = _parentEl;
-      render();
+      vDOM = view(state, emit)
+      mountDOM(vDOM, parentEl) // mount once
     },
     /**
      * Unmount the app

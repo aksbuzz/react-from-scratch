@@ -8,7 +8,7 @@ export function CreateTodo({ currentTodo }, emit) {
       id: 'todo-input',
       value: currentTodo,
       on: {
-        change: ({ target }) => emit('updateCurrentTodo', target.value),
+        input: ({ target }) => emit('updateCurrentTodo', target.value),
         keydown: ({ key }) => {
           if (key === 'Enter' && currentTodo.length >= 3) {
             emit('addTodo');

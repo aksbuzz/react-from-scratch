@@ -29,3 +29,7 @@ Dispatcher - dispatch commands that are mapped to command handlers that update t
 
 The application instance is the object that manages the lifecycle of the application. It
 manages the state, renders the views, and updates the state in response to user input
+
+# Reconcilation
+
+to figure out what changed from one virtual DOM tree to another and how to apply those changes to the real DOM.

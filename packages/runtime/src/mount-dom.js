@@ -2,23 +2,42 @@ import { setAttributes } from './attributes';
 import { addEventListeners } from './events';
 import { DOM_TYPES } from './h';
 
-export function mountDOM(vDOM, parentEl) {
+export function mountDOM(vDOM, parentEl, index) {
   switch (vDOM.type) {
     case DOM_TYPES.TEXT:
-      createTextNode(vDOM, parentEl);
+      createTextNode(vDOM, parentEl, index);
       break;
     case DOM_TYPES.ELEMENT:
-      createElementNode(vDOM, parentEl);
+      createElementNode(vDOM, parentEl, index);
       break;
     case DOM_TYPES.FRAGMENT:
-      createFragmentNode(vDOM, parentEl);
+      createFragmentNode(vDOM, parentEl, index);
       break;
     default:
       throw new Error(`Can't mount DOM of type: ${vDOM.type}`);
   }
 }
 
-function createTextNode(vDOM, parentEl) {
+function insert(el, parentEl, index) {
+  if (index == null) {
+    parentEl.append(el);
+    return;
+  }
+
+  if (index < 0) {
+    throw new Error(`Index out of bound`);
+  }
+
+  const children = parentEl.childNodes;
+
+  if (index >= children.length) {
+    parentEl.append(el);
+  } else {
+    parentEl.insertBefore(el, children[index]);
+  }
+}
+
+function createTextNode(vDOM, parentEl, index) {
   const { value } = vDOM;
 
   // create text node
@@ -26,19 +45,18 @@ function createTextNode(vDOM, parentEl) {
   // save reference
   vDOM.el = textNode;
 
-  // append to parent
-  parentEl.append(textNode);
+  insert(textNode, parentEl, index);
 }
 
-function createFragmentNode(vDOM, parentEl) {
+function createFragmentNode(vDOM, parentEl, index) {
   const { children } = vDOM;
   vDOM.el = parentEl;
 
   // append each child to parent element
-  children.forEach(child => mountDOM(child, parentEl));
+  children.forEach((child, i) => mountDOM(child, parentEl, index ? index + i : null));
 }
 
-function createElementNode(vDOM, parentEl) {
+function createElementNode(vDOM, parentEl, index) {
   const { tag, props, children } = vDOM;
 
   // create element node
@@ -50,8 +68,7 @@ function createElementNode(vDOM, parentEl) {
 
   // mount children
   children.forEach(child => mountDOM(child, element));
-  // append to parent
-  parentEl.append(element);
+  insert(element, parentEl, index);
 }
 
 function addProps(el, props, vDOM) {
